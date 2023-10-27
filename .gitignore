@@ -14,4 +14,4 @@ Cargo.lock
 *.pdb
 
 script.sh
-.gitignore
+.vscode
