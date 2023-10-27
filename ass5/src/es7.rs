@@ -1,4 +1,8 @@
 use CarrotState::{Raw, Cooked, Burnt, Fried};
+
+const ERR_MSG_CHANGES_CARROTSTATE: &str = "
+Did you add a variant to the enum CarrotState?
+Well better check if need implementation here!";
 trait Heatable {
     fn cook(&mut self);
 }
@@ -46,7 +50,7 @@ enum CarrotState {
     Raw,
     Cooked,
     Fried,
-    Burnt
+    Burnt,
 }
 
 trait Edible {
@@ -67,7 +71,7 @@ impl Heatable for Carrot {
         match self.state {
             Raw => self.state = Cooked,
             Burnt | Cooked | Fried => self.state = Burnt,
-            _ => panic!("Did you add a variant to the enum CarrotState? Well better check if need implementation here!")
+            _ => panic!("{ERR_MSG_CHANGES_CARROTSTATE}")
         }
     }
 }
@@ -78,7 +82,8 @@ impl Friable for Carrot {
         match self.state {
             Fried => self.state = Burnt,
             Cooked | Raw | Burnt => self.state = Fried,
-            _ => panic!("Did you add a variant to the enum CarrotState? Well better check if need implementation here!")
+            _ => panic!("{ERR_MSG_CHANGES_CARROTSTATE}")
+
         }
     }
 }
@@ -100,7 +105,7 @@ impl Edible for Carrot {
             Cooked => println!("mmh, yummy"),
             Fried => println!("mmh, crispy"),
             Burnt => println!("mmh, burnt"),
-            _ => panic!("Did you add a variant to the enum CarrotState? Well better check if need implementation here!")
+            _ => panic!("{ERR_MSG_CHANGES_CARROTSTATE}")
         }
     }
 }
@@ -115,22 +120,19 @@ pub fn es7() {
     Friable::cook(&mut carrot);
     carrot.eat();
     
-    let pie: &mut dyn Heatable = &mut Pie { ready: false };
+    let mut pie = Pie { ready: false };
     let pan = Pan;
-    pan.heat(pie);
-    pan.heat(pie);
+    pan.heat(&mut pie);
+    pan.heat(&mut pie);
     
     let mut carrot =  Carrot { state: Raw }; 
-    let carrot_dyn: &mut dyn Friable = &mut carrot;
-    pan.fry(carrot_dyn);
+    pan.fry(&mut carrot);
     
-    pan.fry(carrot_dyn);
+    pan.fry(&mut carrot);
     
     carrot.eat();
 
     let heater = Oven;
-    heater.heat(pie);
+    heater.heat(&mut pie);
 
-
-        
 }

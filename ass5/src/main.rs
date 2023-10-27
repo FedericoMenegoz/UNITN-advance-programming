@@ -15,7 +15,7 @@ fn main() {
     // es3::es3();
     // es4::es4();
     // es5::es5();
-    es6_phantom::es6();
-    // es7::es7();
+    // es6_phantom::es6();
+    es7::es7();
 
 }
