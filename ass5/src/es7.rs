@@ -1,4 +1,4 @@
-use CarrotState::{Raw, Cooked, Burnt, Fried};
+use CarrotState::{Burnt, Cooked, Fried, Raw};
 
 const ERR_MSG_CHANGES_CARROTSTATE: &str = "
 Did you add a variant to the enum CarrotState?
@@ -15,7 +15,7 @@ trait Heater {
     fn heat(&self, food: &mut dyn Heatable);
 }
 trait Frier {
-    fn fry(&self, food: &mut dyn Friable);   
+    fn fry(&self, food: &mut dyn Friable);
 }
 
 struct Oven;
@@ -39,11 +39,11 @@ impl Frier for Pan {
 }
 
 struct Pie {
-    ready: bool
+    ready: bool,
 }
 
 struct Carrot {
-    state: CarrotState
+    state: CarrotState,
 }
 
 enum CarrotState {
@@ -61,7 +61,7 @@ impl Heatable for Pie {
     fn cook(&mut self) {
         match self.ready {
             true => println!("You burned the pie!"),
-            false => self.ready = true
+            false => self.ready = true,
         }
     }
 }
@@ -71,7 +71,7 @@ impl Heatable for Carrot {
         match self.state {
             Raw => self.state = Cooked,
             Burnt | Cooked | Fried => self.state = Burnt,
-            _ => panic!("{ERR_MSG_CHANGES_CARROTSTATE}")
+            _ => panic!("{ERR_MSG_CHANGES_CARROTSTATE}"),
         }
     }
 }
@@ -82,8 +82,7 @@ impl Friable for Carrot {
         match self.state {
             Fried => self.state = Burnt,
             Cooked | Raw | Burnt => self.state = Fried,
-            _ => panic!("{ERR_MSG_CHANGES_CARROTSTATE}")
-
+            _ => panic!("{ERR_MSG_CHANGES_CARROTSTATE}"),
         }
     }
 }
@@ -92,7 +91,7 @@ impl Edible for Pie {
     fn eat(&self) {
         match self.ready {
             true => println!("Yummy!"),
-            false => println!("You go stomach ache!")
+            false => println!("You go stomach ache!"),
         }
     }
 }
@@ -105,7 +104,7 @@ impl Edible for Carrot {
             Cooked => println!("mmh, yummy"),
             Fried => println!("mmh, crispy"),
             Burnt => println!("mmh, burnt"),
-            _ => panic!("{ERR_MSG_CHANGES_CARROTSTATE}")
+            _ => panic!("{ERR_MSG_CHANGES_CARROTSTATE}"),
         }
     }
 }
@@ -119,20 +118,19 @@ pub fn es7() {
     carrot.eat();
     Friable::cook(&mut carrot);
     carrot.eat();
-    
+
     let mut pie = Pie { ready: false };
     let pan = Pan;
     pan.heat(&mut pie);
     pan.heat(&mut pie);
-    
-    let mut carrot =  Carrot { state: Raw }; 
+
+    let mut carrot = Carrot { state: Raw };
     pan.fry(&mut carrot);
-    
+
     pan.fry(&mut carrot);
-    
+
     carrot.eat();
 
     let heater = Oven;
     heater.heat(&mut pie);
-
 }

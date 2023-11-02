@@ -9,7 +9,6 @@ pub mod es6_phantom;
 pub mod es7;
 
 fn main() {
-
     // es1::es1();
     // es2::es2();
     // es3::es3();
@@ -17,5 +16,4 @@ fn main() {
     // es5::es5();
     // es6_phantom::es6();
     es7::es7();
-
 }
