@@ -94,7 +94,7 @@ pub fn es2() {
     let mut user = User(None);
     car_dealer.print_cars();
     match car_dealer.rent_user(&mut user, "C3".to_string()) {
-        Ok(()) => println!("Rent succesfull."),
+        Ok(()) => println!("Rent successful!"),
         Err(msg) => println!("{msg}"),
     }
     match car_dealer.end_rental(&mut user) {
@@ -121,7 +121,7 @@ mod tests {
                 .0
                 .iter()
                 .find(|&c| c.borrow().model == "prova".to_string())
-                .map(|c| true),
+                .map(|_| true),
             Some(true)
         );
     }
