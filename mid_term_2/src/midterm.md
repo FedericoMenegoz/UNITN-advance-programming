@@ -72,3 +72,76 @@ box with inside an object that implements Task
 - `Tasker` has a method `get_tasker(&self)->Tasker` that return a new `Tasker` linked with self.
 
 - `Tasker` has a method `get_executer(&self)->Executer` that return a new `Executer` linked with self.
+
+# 4
+
+define an i32 constant named "CONSTANT" inside a module named "odd_module" and assign to it the value 123
+
+define an i32 constant named "CONSTANT" inside a module named "even_module" and assign to it the value 246
+
+define a public function "get_constant" inside the module "getter_function" that take as input an u32 named "value", and return
+
+the constant inside "odd_module" if "value" is odd. otherwise it returns the constant inside "even_module"
+
+just to avoid confusion remember that in Italian: odd = dispari, even = pari
+
+# 5
+define a trait CloneAndDouble with a function `clone_and_double(&self)->Self`
+
+the function clone_and_double clone the item and double it.
+
+Implement the trait for all items that implement the traits Clone and Add (use a simple addition to double)
+
+# 6 
+The trait `Unknown` defines a method `serialize` that returns the implementer's `String` representation.
+
+- [1] implement it for `i32`
+
+- [1] implement it for `String`
+
+- [3] implement it for `Vec<T>`, where T implements Debug
+
+- [2] write a function `get_vec` that returns an empty vec of `Unknown` data
+
+- [3] write a function `print_vec` that takes as input a reference of a vec of `Unknown` data and prints its content
+
+```
+
+trait Unknown {
+
+fn serialize(&self) -> String;
+
+}
+
+```
+
+# 7
+Write the necessary structs to represent an oriented graph generic over `T`, where `T`
+
+implements `Hash`, `PartialEq` and `Eq`.
+
+- `Node`, with a value of type `T` and a vector of adjacent nodes
+
+- `Graph`, with a vector of nodes
+
+Then, implement the following methods for `Node`:
+
+- `new`, which creates a new `Node` with the given value and the given vector of adjacents
+
+- `get_value`, which returns a reference to the value of the node
+
+Implement `Debug` for `Node`, so that it prints the value of the node and the values of its
+
+adjacents.
+
+For example, if the node has value `1` and its adjacents are `2` and `3`, it should print:
+
+>[value: 1, adjacents: [2, 3]]
+
+Then, implement the following methods for `Graph`:
+
+- `new`, which creates a `Graph` from a vector of nodes, with the respective adjacents set
+
+- `dfs`, which performs a depth-first search on the graph, starting from the given node. It
+
+returns a vector of nodes, in the order in which they were visited.
