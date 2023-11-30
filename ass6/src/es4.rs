@@ -17,6 +17,18 @@ struct PublicIlluminationIterBurnOut<'a> {
     lights: &'a mut Vec<PublicStreetlight>,
 }
 
+impl <'a>IntoIterator for &'a mut PublicIllumination {
+    type Item = PublicStreetlight;
+
+    type IntoIter  = PublicIlluminationIterBurnOut<'a>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        PublicIlluminationIterBurnOut {
+            current: 0,
+            lights: &mut self.lights,
+        }
+    }
+}
 impl<'a> Iterator for PublicIlluminationIterBurnOut<'a> {
     type Item = PublicStreetlight;
 
@@ -35,9 +47,10 @@ impl<'a> Iterator for PublicIlluminationIterBurnOut<'a> {
 impl Display for PublicStreetlight {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut msg = format!("The bulb {} ", self.id);
-        match self.burn_out {
-            false => msg += "is working fine.",
-            true => msg += "needs repairing.",
+        match (self.burn_out, self.on) {
+            (false, false) => msg = format!("{msg} is OFF."),
+            (false, true) => msg = format!("{msg} is ON."),
+            (true, _) => msg += "needs repairing.",
         }
         write!(f, "{msg}")
     }
@@ -57,12 +70,12 @@ impl<'a> PublicIllumination {
         PublicIllumination { lights }
     }
 
-    fn iter_burn_out(&'a mut self) -> PublicIlluminationIterBurnOut<'a> {
-        PublicIlluminationIterBurnOut {
-            current: 0,
-            lights: &mut self.lights,
-        }
-    }
+    // fn iter_burn_out(&'a mut self) -> PublicIlluminationIterBurnOut<'a> {
+    //     PublicIlluminationIterBurnOut {
+    //         current: 0,
+    //         lights: &mut self.lights,
+    //     }
+    // }
 
     fn switch_all(&mut self, on: bool) {
         let mut rng = rand::thread_rng();
@@ -71,12 +84,8 @@ impl<'a> PublicIllumination {
             light.on = on && !light.burn_out;
         })
     }
-
-    fn print_all(&self) {
-        self.lights.iter().for_each(|light| println!("{light:?}"));
-        println!();
-    }
 }
+
 impl Default for PublicStreetlight {
     fn default() -> Self {
         Self {
@@ -96,34 +105,26 @@ impl PublicStreetlight {
 }
 
 pub fn es4() {
+    // create the vector of lights and generate the pubblic illumination
+    // print the initial situation
     let mut lights = Vec::new();
-
     (0..5).for_each(|i| lights.push(PublicStreetlight::new(i.to_string())));
-
     let mut illumination = PublicIllumination::new(lights);
+    println!("{illumination}");
 
-    illumination.print_all();
-
+    // switching on and off could break some lights
     illumination.switch_all(true);
     println!("{illumination}");
     illumination.switch_all(false);
     println!("{illumination}");
 
-    let iter = illumination.iter_burn_out();
+    // remove burn_out lights
+    let iter = illumination.into_iter();
     for broken_light in iter {
-        println!("Removing {broken_light}");
+        println!("Removing {broken_light:#?}");
     }
 
-    illumination.switch_all(true);
-    println!("\n{illumination}");
-
-    illumination.switch_all(false);
-    println!("{illumination}");
-
-    let iter = illumination.iter_burn_out();
-    for broken_light in iter {
-        println!("Removing {broken_light}");
-    }
+    // print final situation
     println!("\n{illumination}");
 }
 
@@ -153,7 +154,7 @@ mod tests {
         light_3.burn_out = true;
 
         let mut ill = PublicIllumination::new(vec![light_0, light_1, light_2, light_3]);
-        let iter_broken = ill.iter_burn_out();
+        let iter_broken = ill.into_iter();
 
         for broken_bulb in iter_broken {
             assert_eq!(broken_bulb.burn_out, true)

@@ -134,6 +134,7 @@ pub fn es1() {
     root.insert(50);
     root.insert(-3);
     print_tree(&root, 0);
+    println!("{}",root.into_iter().map(|x| x.to_string()).collect::<Vec<_>>().join(" "));
 }
 #[cfg(test)]
 mod tree_node_tests {
