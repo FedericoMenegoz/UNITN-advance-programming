@@ -1,81 +1,68 @@
-use std::{rc::Rc, cell::RefCell};
-#[derive(PartialEq, Clone, Copy)]
-enum State {
-    One,
-    Zero,
-}
-type Node = Option<Rc<RefCell<EntangledBit>>>;
-struct EntangledBit {
-    val: State,
-    next: Node,
-    prev: Node
-}
+use std::{cell::RefCell, rc::Rc};
 
-impl Default for EntangledBit {
-    
+struct EntagledBit {
+    state: Rc<RefCell<bool>>
+}
+impl Default for EntagledBit {
     fn default() -> Self {
-        EntangledBit { val: State::Zero, next: None, prev: None }
+        EntagledBit { state: Rc::new(RefCell::new(false)) }
+    }
+}
+impl EntagledBit {
+    fn set(&self) {
+        *self.state.borrow_mut() = true;
+    }
+
+    fn reset(&self) {
+        *self.state.borrow_mut() = false;
+    }
+
+    fn get(&self) -> bool{
+        *self.state.borrow()
+    }
+
+    fn entangle_with(&self, other: &mut Self) {
+        other.state = Rc::clone(&self.state);
     }
 }
 
-impl EntangledBit {
+pub fn es6() {
+    let mut b1 = EntagledBit::default();
+    let mut b2 = EntagledBit::default();
+    let mut b3 = EntagledBit::default();
 
-    fn set(&mut self) {
-       if self.get() == State::Zero { self.set_state(State::One); }
-    }
+    // b1 = 0
+    // b2 = 0
+    // b3 = 0
+    
+    b1.set();
+    b1.entangle_with(&mut b2);
+    assert_eq!(b1.get(), b2.get());
+    
+    // b1 = 1
+    // b2 = 1
+    // b3 = 0
+    
+    b2.reset();
+    assert_eq!(b1.get(), b2.get());
+    
+    // b1 = 0
+    // b2 = 0
+    // b3 = 0
+    
+    b3.set();
+    b3.entangle_with(&mut b1);
+    assert_eq!(b1.get(), b3.get());
+    
+    // b1 = 1
+    // b2 = 0
+    // b3 = 1
 
-    fn reset(&mut self) {
-        if self.get() == State::One { self.set_state(State::Zero); }
-
-     }
-
-    fn set_state(&mut self, state:State) {
-        self.val = state;
-        self.next.as_ref()
-            .map(|next| {next
-                .borrow_mut().set()});
-    }
-
-    fn get(&self) -> State {
-        self.val
-    }
-
-
-
-    fn entagled_with(&mut self, other: &mut EntangledBit) {
-        match &self.next {
-            Some(node) => {
-                node.borrow_mut().entagled_with(other)
-            },
-            None => {
-
-                match other.prev.take() {
-                    Some(node) => node.borrow_mut().next = std::mem::replace(&mut other.next, None),
-                    None => {}
-                }
-
-                self.next = Some(Rc::clone());
-
-            }
-        }
-
-    }
-        
-
-        
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn basic6() {
-        let bit_1 = EntangledBit::default();
-        let bit_2 = EntangledBit::default();
-        let bit_3 = EntangledBit::default();
-        let bit_4 = EntangledBit::default();
-
-        bit_
-    }
+    b2.entangle_with(&mut b3);
+    assert_ne!(b1.get(), b3.get());
+    assert_ne!(b1.get(), b2.get());
+    
+    // b1 = 1
+    // b2 = 0
+    // b3 = 0
 }
