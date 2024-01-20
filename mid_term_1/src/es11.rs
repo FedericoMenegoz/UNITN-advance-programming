@@ -1,2 +1,1 @@
-pub fn es11() {
-}
+pub fn es11() {}
