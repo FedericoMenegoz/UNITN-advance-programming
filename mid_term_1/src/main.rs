@@ -58,13 +58,11 @@ pub mod es11;
 // }
 
 
+
 fn main() {
-    let x = String::from("hello");
-    let y = x; // this is line 3
-    println!("{}, world!", y);
-    println!("{}, world!", x);
-    let x = 10;
-    let y = x;
-    println!("y={}", y);
-    println!("x={}", x);
-   }
+    let s = [1,2,3,4];
+    // This is line 2
+
+    let x = &s;
+    println!( "{:?}", x);
+}
