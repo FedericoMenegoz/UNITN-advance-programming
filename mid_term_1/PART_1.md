@@ -15,7 +15,7 @@ fn main() {
 }
 ```
 1. yes;
-2. no, x is moved;
+- [X] **no, x is moved**;
 3. no, x and y are defined twice;
 4. no, x does not implement the clone trait;
 5. no, x is borrowed twice;
