@@ -6,6 +6,9 @@ pub mod es5;
 pub mod es6;
 pub mod es7;
 pub mod es8;
+pub mod es9;
+pub mod es10;
+pub mod es11;
 
 fn main() {
     println!("\n********** *********** **********");
@@ -40,4 +43,16 @@ fn main() {
     println!("           EXERCISE 8           ");
     println!("********** *********** **********\n");
     es8::es8();
+    println!("\n********** *********** **********");
+    println!("           EXERCISE 9           ");
+    println!("********** *********** **********\n");
+    es9::es9();
+    println!("\n********** *********** **********");
+    println!("           EXERCISE 10           ");
+    println!("********** *********** **********\n");
+    es10::es10();
+    println!("\n********** *********** **********");
+    println!("           EXERCISE 11           ");
+    println!("********** *********** **********\n");
+    es11::es11();
 }
