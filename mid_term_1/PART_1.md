@@ -14,8 +14,8 @@ fn main() {
  println!("x={}", x);
 }
 ```
-[] yes;
-[] no, x is moved;
-[] no, x and y are defined twice;
-[] no, x does not implement the clone trait;
-[] no, x is borrowed twice;
+[ ] yes;
+[ ] no, x is moved;
+[ ] no, x and y are defined twice;
+[ ] no, x does not implement the clone trait;
+[ ] no, x is borrowed twice;
