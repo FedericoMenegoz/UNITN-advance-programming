@@ -1,6 +1,6 @@
 # Part 1: multiple question choice on Rust semantic
 
-## A: will the following code compile? Why?
+## A: Will the following code compile? Why?
 
 ```Rust
 fn main() {
@@ -14,3 +14,8 @@ fn main() {
  println!("x={}", x);
 }
 ```
+[] yes;
+[] no, x is moved;
+[] no, x and y are defined twice;
+[] no, x does not implement the clone trait;
+[] no, x is borrowed twice;
